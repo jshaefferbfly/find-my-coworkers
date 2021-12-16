@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <h1>yo</h1>
-      <MapContainer className='map' center={position} zoom={13} scrollWheelZoom={false}>
+      <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
