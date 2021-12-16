@@ -38,8 +38,9 @@ function App() {
 		const querySnapshot = await getDocs(usersRef);
 		querySnapshot.forEach((doc) => {
 			console.log(doc.id, " => ", doc.data());
+			const location: LatLngExpression = [doc.data().latitude, doc.data().longitude];
 			const newUser = {
-				location: [doc.data().latitude, doc.data().longitude],
+				location,
 				name: doc.id.split("-")[0],
 				team: doc.id.split("-")[1],
 			};
