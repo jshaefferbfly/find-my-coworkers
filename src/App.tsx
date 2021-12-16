@@ -10,6 +10,13 @@ export interface UserData {
 }
 
 function App() {
+  const [me, setMe] = useState<UserData>(
+    {
+      location: [40.743440, -73.987250],
+      name: 'JD',
+      team: 'Cloud'
+    }
+  )
   const [users, setUsers] = useState<UserData[]>([
     {
       location: [40.743440, -73.987250],
@@ -25,7 +32,7 @@ function App() {
 
   return (
     <>
-      <Map users={users} />
+      <Map users={users} me={me} />
     </>
   );
 }

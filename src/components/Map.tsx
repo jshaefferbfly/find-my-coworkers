@@ -4,11 +4,10 @@ import { UserData } from '../App'
 
 interface Props {
 	users: UserData[]
+	me: UserData
 }
 
-const Map = ({users}: Props) => {
-  const [me, setMe] = useState<UserData>()
-
+const Map = ({ users, me }: Props) => {
 
 	return (
 		<MapContainer center={me.location} zoom={15} scrollWheelZoom={false}>
