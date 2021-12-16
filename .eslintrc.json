@@ -9,6 +9,7 @@
     "prettier",
     "@typescript-eslint",
     "react",
+    "react-hooks",
     "prettier"
   ],
   "rules": {
