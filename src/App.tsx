@@ -28,7 +28,7 @@ function App() {
 
 	const db = getFirestore();
 	// eslint-disable-next-line
-	async function docRef(data:any) {
+	async function docRef(data: any) {
 		const id = `${data.name}-${data.team}`;
 		await setDoc(doc(db, "users", id), data.location);
 	}
@@ -53,7 +53,7 @@ function App() {
 
 	const [me, setMe] = useState<UserData>({
 		location: [40.74344, -73.98725],
-		name: "JD",
+		name: "JD Shaeffer",
 		team: "Cloud",
 	});
 
