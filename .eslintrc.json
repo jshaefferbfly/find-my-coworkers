@@ -8,9 +8,8 @@
   "plugins": [
     "prettier",
     "@typescript-eslint",
-    "react/recommended",
-    "prettier/recommended",
-    "@typescript-eslint/recommended"
+    "react",
+    "prettier"
   ],
   "rules": {
     "eqeqeq": "error",
