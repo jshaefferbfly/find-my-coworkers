@@ -34,10 +34,12 @@ const Map = ({ users, me }: Props) => {
 			/>
 			<Marker position={me.location}>
 				<Tooltip permanent direction="top" offset={[-15, 30]} opacity={1} interactive={true}>
-					<div onClick={handleUserSelect}>
-						<h4>{me.name}</h4>
+					<div onClick={handleUserSelect} style={{ display: "grid", placeItems: "center" }}>
+						<h5>{me.name}</h5>
 						<p>{me.team}</p>
-						<img src={`data:image/svg+xml;utf8,${encodeURIComponent(avatar)}`} />
+						<div style={{ maxWidth: "75px", minWidth: "75px" }}>
+							<img src={`data:image/svg+xml;utf8,${encodeURIComponent(avatar)}`} />
+						</div>
 					</div>
 				</Tooltip>
 				<Circle center={me.location} radius={20} />
