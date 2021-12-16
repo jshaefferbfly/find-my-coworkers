@@ -39,30 +39,30 @@ export default function UserModal() {
 					<Modal.Title>Hey 👋, Welcome to Find my Coworker</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<InputGroup size="sm" className="mb-3">
-						<InputGroup.Text id="inputGroup-sizing-sm">What's your name :</InputGroup.Text>
+					<InputGroup size='sm' className='mb-3'>
+						<InputGroup.Text id='inputGroup-sizing-sm'>What&apos;s your name :</InputGroup.Text>
 						<FormControl
-							aria-label="Small"
-							aria-describedby="inputGroup-sizing-sm"
+							aria-label='Small'
+							aria-describedby='inputGroup-sizing-sm'
 							value={name}
 							onChange={(e) => setName(e.target.value)}
 						/>
 					</InputGroup>
-					<InputGroup size="sm" className="mb-3">
-						<InputGroup.Text id="inputGroup-sizing-sm">What's your team ?</InputGroup.Text>
+					<InputGroup size='sm' className='mb-3'>
+						<InputGroup.Text id='inputGroup-sizing-sm'>What&apos;s your team ?</InputGroup.Text>
 						<FormControl
-							aria-label="Small"
-							aria-describedby="inputGroup-sizing-sm"
+							aria-label='Small'
+							aria-describedby='inputGroup-sizing-sm'
 							value={team}
 							onChange={(e) => setTeam(e.target.value)}
 						/>
 					</InputGroup>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="danger" onClick={handleClose}>
+					<Button variant='danger' onClick={handleClose}>
 						Close
 					</Button>
-					<Button variant="primary" onClick={handleSend}>
+					<Button variant='primary' onClick={handleSend}>
 						Pin me!
 					</Button>
 				</Modal.Footer>
