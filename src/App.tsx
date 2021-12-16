@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { LatLngExpression } from 'leaflet'
 import Map from './components/Map'
 import './App.css'
