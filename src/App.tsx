@@ -24,7 +24,7 @@ function App() {
       team: 'Cloud'
     },
     {
-      location: [40.743440, -73.987250],
+      location: [40.743350, -73.987030],
       name: 'Bob',
       team: 'Cloud'
     }
