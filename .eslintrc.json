@@ -2,14 +2,15 @@
   "extends": [
     "eslint:recommended",
     "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended"
   ],
   "plugins": [
     "prettier",
     "@typescript-eslint",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "react/recommended",
+    "prettier/recommended",
+    "@typescript-eslint/recommended"
   ],
   "rules": {
     "eqeqeq": "error",
