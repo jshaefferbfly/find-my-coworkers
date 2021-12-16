@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Modal, Button, InputGroup, FormControl } from 'react-bootstrap';
 
-export default function UserModal() {
+// eslint-disable-next-line
+export default function UserModal({handleDB}:any) {
 	const [show, setShow] = useState(true);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -16,10 +17,11 @@ export default function UserModal() {
 			lat: ${location?.latitude}
 			long: ${location?.longitude}
 		`);
+		handleDB({ name, team, location: { longitude: location?.longitude, latitude: location?.latitude } });
 	};
 
-	const [name, setName] = useState<string>('your name');
-	const [team, setTeam] = useState<string>('your team');
+	const [name, setName] = useState<string>('');
+	const [team, setTeam] = useState<string>('');
 	const [location, setLocation] = useState<GeolocationCoordinates>();
 
 	function getLocation() {
