@@ -1,13 +1,10 @@
-/*eslint eqeqeq:0*/
-
-import { LatLngExpression } from "leaflet";
-import Map from "./components/Map";
-import UserModal from "./components/UserModal";
 import { useEffect, useState } from "react";
-import "./App.css";
-
+import { LatLngExpression } from "leaflet";
 import firebase from "firebase/compat/app";
 import { getFirestore, setDoc, doc, getDocs, getDoc, collection, query, where } from "firebase/firestore";
+import Map from "./components/Map";
+import UserModal from "./components/UserModal";
+import "./App.css";
 
 export interface UserData {
 	location: LatLngExpression;
@@ -16,6 +13,13 @@ export interface UserData {
 }
 
 function App() {
+	const [users, setUsers] = useState<UserData[]>();
+	const [me, setMe] = useState<UserData>({
+		location: [40.74344, -73.98725],
+		name: "JD Shaeffer",
+		team: "Cloud",
+	});
+
 	firebase.initializeApp({
 		apiKey: "AIzaSyBWZ5AmsQTC78sCqXgYQccigjC5PJIhYAI",
 		authDomain: "find-my-coworker.firebaseapp.com",
@@ -50,14 +54,6 @@ function App() {
 			setUsers(newUserArr);
 		})();
 	}, [db]);
-
-	const [me, setMe] = useState<UserData>({
-		location: [40.74344, -73.98725],
-		name: "JD Shaeffer",
-		team: "Cloud",
-	});
-
-	const [users, setUsers] = useState<UserData[]>();
 
 	return (
 		<>

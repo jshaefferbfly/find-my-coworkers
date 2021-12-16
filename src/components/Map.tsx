@@ -8,13 +8,10 @@ import * as style from "@dicebear/pixel-art";
 import { UserData } from "../App";
 import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
 
-const avatar = createAvatar(style, {
-	seed: uuidv4(),
-});
-
 interface Props {
 	users: UserData[];
 	me: UserData;
+	// setUsers: (users: UserData[]) => void;
 }
 
 const Map = ({ users, me }: Props) => {
@@ -23,9 +20,12 @@ const Map = ({ users, me }: Props) => {
 		console.log(users);
 	}, [users]);
 
-	const handleUserSelect = () => {
-		console.log("hello");
-	};
+	// const handleUserSelect = (user: UserData) => {
+	// 	const orderedUsers = users;
+	// 	orderedUsers.splice(orderedUsers.indexOf(user), 1);
+	// 	orderedUsers.push(user);
+	// 	setUsers(orderedUsers);
+	// };
 
 	return (
 		<MapContainer center={me.location} zoom={17} scrollWheelZoom={false} gestureHandling={true}>
@@ -33,11 +33,11 @@ const Map = ({ users, me }: Props) => {
 				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
-			{users.map((me, id) => {
+			{users.map((me) => {
 				return (
-					<Marker position={me.location} key={id}>
+					<Marker position={me.location} key={`${me.location}${me.name}${me.team}`}>
 						<Tooltip permanent direction="top" offset={[-15, 30]} opacity={1} interactive={true}>
-							<div onClick={handleUserSelect} style={{ display: "grid", placeItems: "center" }}>
+							<div style={{ display: "grid", placeItems: "center" }}>
 								<h5>{me.name}</h5>
 								<p>{me.team}</p>
 								<div style={{ maxWidth: "75px", minWidth: "75px" }}>

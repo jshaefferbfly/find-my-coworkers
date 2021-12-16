@@ -1,10 +1,8 @@
-/*eslint eqeqeq:0*/
-
 import { useEffect, useState } from "react";
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 
 // eslint-disable-next-line
-export default function UserModal({handleDB}:any) {
+export default function UserModal({ handleDB }: any) {
 	const [show, setShow] = useState(true);
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
