@@ -4,12 +4,24 @@ import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 // eslint-disable-next-line
 export default function UserModal({ handleDB }: any) {
 	const [show, setShow] = useState(true);
-	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
+	const [name, setName] = useState<string>("");
+	const [team, setTeam] = useState<string>("");
+	const [location, setLocation] = useState<GeolocationCoordinates>();
+
+	const handleClose = () => {
+		let success = false;
+		if (name && team) {
+			setShow(false);
+			success = true;
+		} else {
+			success = false;
+		}
+		return success;
+	};
 
 	const handleSend = () => {
-		handleClose();
-		console.log(`
+		if (handleClose()) {
+			console.log(`
 			sending to the back... 
 			name: ${name},
 			team: ${team},
@@ -17,19 +29,15 @@ export default function UserModal({ handleDB }: any) {
 			lat: ${location?.latitude}
 			long: ${location?.longitude}
 		`);
-		handleDB({ name, team, location: { longitude: location?.longitude, latitude: location?.latitude } });
+			handleDB({ name, team, location: { longitude: location?.longitude, latitude: location?.latitude } });
+		}
 	};
 
-	const [name, setName] = useState<string>("");
-	const [team, setTeam] = useState<string>("");
-
-	const [location, setLocation] = useState<GeolocationCoordinates>();
-
-	function getLocation() {
+	const getLocation = () => {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition((locationObject) => setLocation(locationObject.coords));
 		}
-	}
+	};
 
 	useEffect(() => {
 		getLocation();
@@ -38,12 +46,14 @@ export default function UserModal({ handleDB }: any) {
 	return (
 		<>
 			<Modal show={show} onHide={handleClose}>
-				<Modal.Header closeButton>
-					<Modal.Title>Hey 👋, Welcome to Find my Coworker</Modal.Title>
+				<Modal.Header>
+					<Modal.Title>
+						Hey 👋, Welcome to <b>FindMyCoworker</b>
+					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<InputGroup size="sm" className="mb-3">
-						<InputGroup.Text id="inputGroup-sizing-sm">What&apos;s your name :</InputGroup.Text>
+						<InputGroup.Text id="inputGroup-sizing-sm">What&apos;s your name?</InputGroup.Text>
 						<FormControl
 							aria-label="Small"
 							aria-describedby="inputGroup-sizing-sm"
@@ -52,7 +62,7 @@ export default function UserModal({ handleDB }: any) {
 						/>
 					</InputGroup>
 					<InputGroup size="sm" className="mb-3">
-						<InputGroup.Text id="inputGroup-sizing-sm">What&apos;s your team ?</InputGroup.Text>
+						<InputGroup.Text id="inputGroup-sizing-sm">What&apos;s your team?&nbsp;</InputGroup.Text>
 						<FormControl
 							aria-label="Small"
 							aria-describedby="inputGroup-sizing-sm"
@@ -62,10 +72,7 @@ export default function UserModal({ handleDB }: any) {
 					</InputGroup>
 				</Modal.Body>
 				<Modal.Footer>
-					<Button variant="danger" onClick={handleClose}>
-						Close
-					</Button>
-					<Button variant="primary" onClick={handleSend}>
+					<Button variant="primary" onClick={handleSend} disabled={!name || !team}>
 						Pin me!
 					</Button>
 				</Modal.Footer>
