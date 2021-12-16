@@ -48,8 +48,6 @@
     ]
   },
   "devDependencies": {
-    "@dicebear/avatars": "^4.10.1",
-    "@dicebear/pixel-art": "^4.10.1",
     "@types/leaflet": "^1.7.6",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
