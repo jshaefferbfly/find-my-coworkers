@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import * as L from "leaflet";
 import { MapContainer, Marker, TileLayer, Circle, Tooltip } from "react-leaflet";
 import { GestureHandling } from "leaflet-gesture-handling";
@@ -8,7 +9,7 @@ import { UserData } from "../App";
 import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
 
 const avatar = createAvatar(style, {
-	seed: "custom-seed",
+	seed: uuidv4(),
 });
 
 interface Props {
