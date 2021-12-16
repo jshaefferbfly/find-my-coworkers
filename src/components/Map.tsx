@@ -1,23 +1,22 @@
-import { LatLngExpression } from 'leaflet';
-import { useState } from 'react';
+import { useEffect } from 'react'
+import * as L from 'leaflet'
 import { MapContainer, Marker, TileLayer, Popup, Circle } from 'react-leaflet'
+import { GestureHandling } from 'leaflet-gesture-handling'
+import { UserData } from '../App'
+import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css'
 
-interface UserData {
-  location: LatLngExpression
-  name: string
-  team: string
+interface Props {
+	users: UserData[]
+	me: UserData
 }
 
-const Map = () => {
-  const [users, setUsers] = useState<UserData[]>()
-  const [me, setMe] = useState<UserData>({
-    location: [40.743440, -73.987250],
-    name: 'JD',
-    team: 'Cloud'
-  })
+const Map = ({ users, me }: Props) => {
+	useEffect(() => {
+		L.Map.addInitHook("addHandler", "gestureHandling", GestureHandling);
+	}, [])
 
 	return (
-		<MapContainer center={me.location} zoom={15} scrollWheelZoom={false}>
+		<MapContainer center={me.location} zoom={15} scrollWheelZoom={false} gestureHandling={true}>
 			<TileLayer
 				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
