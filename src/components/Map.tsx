@@ -10,14 +10,13 @@ import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
 
 interface Props {
 	users: UserData[];
-	me: UserData;
+	me: UserData | undefined;
 	// setUsers: (users: UserData[]) => void;
 }
 
 const Map = ({ users, me }: Props) => {
 	useEffect(() => {
 		L.Map.addInitHook("addHandler", "gestureHandling", GestureHandling);
-		console.log(users);
 	}, [users]);
 
 	// const handleUserSelect = (user: UserData) => {
@@ -28,18 +27,18 @@ const Map = ({ users, me }: Props) => {
 	// };
 
 	return (
-		<MapContainer center={me.location} zoom={17} scrollWheelZoom={false} gestureHandling={true}>
+		<MapContainer center={[40.743439, -73.987251]} zoom={17} scrollWheelZoom={false} gestureHandling={true}>
 			<TileLayer
 				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
-			{users.map((me) => {
+			{users.map((user) => {
 				return (
-					<Marker position={me.location} key={`${me.location}${me.name}${me.team}`}>
+					<Marker position={user.location} key={`${user.location}${user.name}${user.team}`}>
 						<Tooltip permanent direction="top" offset={[-15, 30]} opacity={1} interactive={true}>
 							<div style={{ display: "grid", placeItems: "center" }}>
-								<h5>{me.name}</h5>
-								<p>{me.team}</p>
+								<h5>{user.name}</h5>
+								<p>{user.team}</p>
 								<div style={{ maxWidth: "75px", minWidth: "75px" }}>
 									<img
 										src={`data:image/svg+xml;utf8,${encodeURIComponent(
@@ -51,7 +50,7 @@ const Map = ({ users, me }: Props) => {
 								</div>
 							</div>
 						</Tooltip>
-						<Circle center={me.location} radius={20} />
+						<Circle center={user.location} radius={20} />
 					</Marker>
 				);
 			})}

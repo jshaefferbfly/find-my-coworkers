@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { LatLngExpression } from "leaflet";
+import { LatLng, LatLngExpression, map } from "leaflet";
 import firebase from "firebase/compat/app";
-import { getFirestore, setDoc, doc, getDocs, getDoc, collection, query, where } from "firebase/firestore";
+import { getFirestore, setDoc, doc, getDocs, collection } from "firebase/firestore";
 import Map from "./components/Map";
 import UserModal from "./components/UserModal";
 import "./App.css";
@@ -14,11 +14,7 @@ export interface UserData {
 
 function App() {
 	const [users, setUsers] = useState<UserData[]>();
-	const [me, setMe] = useState<UserData>({
-		location: [40.74344, -73.98725],
-		name: "JD Shaeffer",
-		team: "Cloud",
-	});
+	const [me, setMe] = useState<UserData | undefined>();
 
 	firebase.initializeApp({
 		apiKey: "AIzaSyBWZ5AmsQTC78sCqXgYQccigjC5PJIhYAI",
@@ -34,6 +30,9 @@ function App() {
 	// eslint-disable-next-line
 	async function docRef(data: any) {
 		const id = `${data.name}-${data.team}`;
+		localStorage.setItem("name", data.name);
+		localStorage.setItem("team", data.team);
+		localStorage.setItem("location", `${data.location.latitude},${data.location.longitude}`);
 		await setDoc(doc(db, "users", id), data.location);
 	}
 
@@ -55,9 +54,26 @@ function App() {
 		})();
 	}, [db]);
 
+	useEffect(() => {
+		const name = localStorage.getItem("name");
+		const team = localStorage.getItem("team");
+		const location: number[] | undefined = localStorage
+			.getItem("location")
+			?.split(",")
+			.map((str) => +str);
+
+		if (name && team && location) {
+			setMe({
+				name,
+				team,
+				location: [location[0], location[1]],
+			});
+		}
+	}, []);
+
 	return (
 		<>
-			<UserModal handleDB={docRef} />
+			{!me ? <UserModal handleDB={docRef} /> : <></>}
 			{users ? <Map users={users} me={me} /> : <></>}
 		</>
 	);
