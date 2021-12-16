@@ -1,3 +1,5 @@
+/*eslint eqeqeq:0*/
+
 import { LatLngExpression } from "leaflet";
 import Map from "./components/Map";
 import UserModal from "./components/UserModal";
@@ -5,7 +7,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 import firebase from "firebase/compat/app";
-import { getFirestore, setDoc, doc, getDocs } from "firebase/firestore";
+import { getFirestore, setDoc, doc, getDocs, getDoc, collection, query, where } from "firebase/firestore";
 
 export interface UserData {
 	location: LatLngExpression;
@@ -30,6 +32,24 @@ function App() {
 		const id = `${data.name}-${data.team}`;
 		await setDoc(doc(db, "users", id), data.location);
 	}
+
+	async function docSnap() {
+		const usersRef = collection(db, "users");
+		const querySnapshot = await getDocs(usersRef);
+		querySnapshot.forEach((doc) => {
+			console.log(doc.id, " => ", doc.data());
+			const newUser = {
+				location: [doc.data().latitude, doc.data().longitude],
+				name: doc.id.split("-")[0],
+				team: doc.id.split("-")[1],
+			};
+			setUsers([...users, newUser]);
+		});
+	}
+
+	useEffect(() => {
+		docSnap();
+	}, []);
 
 	const [me, setMe] = useState<UserData>({
 		location: [40.74344, -73.98725],

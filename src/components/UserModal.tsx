@@ -1,3 +1,5 @@
+/*eslint eqeqeq:0*/
+
 import { useEffect, useState } from "react";
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 
