@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { LatLngExpression } from 'leaflet'
 import Map from './components/Map'
 import './App.css'
+import UserModal from './components/UserModal';
+import { useEffect, useState } from 'react';
 
 export interface UserData {
   location: LatLngExpression
@@ -32,7 +34,9 @@ function App() {
 
   return (
     <>
+      <UserModal/>
       <Map users={users} me={me} />
+
     </>
   );
 }
