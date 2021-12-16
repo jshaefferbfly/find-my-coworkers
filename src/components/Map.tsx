@@ -20,7 +20,8 @@ interface Props {
 const Map = ({ users, me }: Props) => {
 	useEffect(() => {
 		L.Map.addInitHook("addHandler", "gestureHandling", GestureHandling);
-	}, []);
+		console.log(users);
+	}, [users]);
 
 	const handleUserSelect = () => {
 		console.log("hello");
@@ -32,18 +33,28 @@ const Map = ({ users, me }: Props) => {
 				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
-			<Marker position={me.location}>
-				<Tooltip permanent direction="top" offset={[-15, 30]} opacity={1} interactive={true}>
-					<div onClick={handleUserSelect} style={{ display: "grid", placeItems: "center" }}>
-						<h5>{me.name}</h5>
-						<p>{me.team}</p>
-						<div style={{ maxWidth: "75px", minWidth: "75px" }}>
-							<img src={`data:image/svg+xml;utf8,${encodeURIComponent(avatar)}`} />
-						</div>
-					</div>
-				</Tooltip>
-				<Circle center={me.location} radius={20} />
-			</Marker>
+			{users.map((me, id) => {
+				return (
+					<Marker position={me.location} key={id}>
+						<Tooltip permanent direction="top" offset={[-15, 30]} opacity={1} interactive={true}>
+							<div onClick={handleUserSelect} style={{ display: "grid", placeItems: "center" }}>
+								<h5>{me.name}</h5>
+								<p>{me.team}</p>
+								<div style={{ maxWidth: "75px", minWidth: "75px" }}>
+									<img
+										src={`data:image/svg+xml;utf8,${encodeURIComponent(
+											createAvatar(style, {
+												seed: uuidv4(),
+											})
+										)}`}
+									/>
+								</div>
+							</div>
+						</Tooltip>
+						<Circle center={me.location} radius={20} />
+					</Marker>
+				);
+			})}
 		</MapContainer>
 	);
 };

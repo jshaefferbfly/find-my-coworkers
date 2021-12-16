@@ -33,24 +33,23 @@ function App() {
 		await setDoc(doc(db, "users", id), data.location);
 	}
 
-	async function docSnap() {
-		const usersRef = collection(db, "users");
-		const querySnapshot = await getDocs(usersRef);
-		querySnapshot.forEach((doc) => {
-			console.log(doc.id, " => ", doc.data());
-			const location: LatLngExpression = [doc.data().latitude, doc.data().longitude];
-			const newUser = {
-				location,
-				name: doc.id.split("-")[0],
-				team: doc.id.split("-")[1],
-			};
-			setUsers([...users, newUser]);
-		});
-	}
-
 	useEffect(() => {
-		docSnap();
-	}, []);
+		(async () => {
+			const usersRef = collection(db, "users");
+			const querySnapshot = await getDocs(usersRef);
+			const newUserArr: UserData[] = [];
+			querySnapshot.forEach((doc) => {
+				const location: LatLngExpression = [doc.data().latitude, doc.data().longitude];
+				const newUser = {
+					location,
+					name: doc.id.split("-")[0],
+					team: doc.id.split("-")[1],
+				};
+				newUserArr.push(newUser);
+			});
+			setUsers(newUserArr);
+		})();
+	}, [db]);
 
 	const [me, setMe] = useState<UserData>({
 		location: [40.74344, -73.98725],
@@ -58,23 +57,12 @@ function App() {
 		team: "Cloud",
 	});
 
-	const [users, setUsers] = useState<UserData[]>([
-		{
-			location: [40.74344, -73.98725],
-			name: "JD",
-			team: "Cloud",
-		},
-		{
-			location: [40.74335, -73.98703],
-			name: "Bob",
-			team: "Cloud",
-		},
-	]);
+	const [users, setUsers] = useState<UserData[]>();
 
 	return (
 		<>
 			<UserModal handleDB={docRef} />
-			<Map users={users} me={me} />
+			{users ? <Map users={users} me={me} /> : <></>}
 		</>
 	);
 }
