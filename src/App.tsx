@@ -37,7 +37,7 @@ function App() {
 		const users = await getDocs(collection(db, "users"));
 
 		const id = `${data.name}!${data.team}!${data.avatarId}!${users.size + 1}`;
-		await setDoc(doc(db, "users", id), data.location);
+		setDoc(doc(db, "users", id), data.location).then(() => window.location.reload());
 
 		localStorage.setItem("name", data.name);
 		localStorage.setItem("team", data.team);
@@ -59,7 +59,7 @@ function App() {
 					avatarId: doc.id.split("!")[2],
 					zIndex: +doc.id.split("!")[3],
 				};
-				newUserArr.push(newUser);
+				newUserArr.unshift(newUser);
 			});
 			setUsers(newUserArr);
 		})();
