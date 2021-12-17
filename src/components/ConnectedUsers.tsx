@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { UserData } from "../App";
 import "./connected.css";
