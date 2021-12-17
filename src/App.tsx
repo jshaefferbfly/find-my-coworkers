@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { LatLngExpression } from "leaflet";
 import firebase from "firebase/compat/app";
-import { getFirestore, setDoc, doc, getDocs, collection, getDoc } from "firebase/firestore";
+import { getFirestore, setDoc, doc, getDocs, collection } from "firebase/firestore";
 import Map from "./components/Map";
 import UserModal from "./components/UserModal";
 import Pass from "./components/Pass";

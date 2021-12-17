@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import * as L from "leaflet";
-import { MapContainer, TileLayer, Circle, Popup, Tooltip } from "react-leaflet";
+import { MapContainer, TileLayer, Circle, Tooltip } from "react-leaflet";
 import { GestureHandling } from "leaflet-gesture-handling";
 import { UserData } from "../App";
 import { createAvatar } from "@dicebear/avatars";
@@ -13,7 +13,7 @@ interface Props {
 	handleOrderedUsers: (users: UserData[]) => void;
 }
 
-const Map = ({ users, me, handleOrderedUsers }: Props) => {
+const Map = ({ users, handleOrderedUsers }: Props) => {
 	useEffect(() => {
 		L.Map.addInitHook("addHandler", "gestureHandling", GestureHandling);
 	}, [users]);
