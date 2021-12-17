@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { LatLng, LatLngExpression, map } from "leaflet";
+import { LatLngExpression } from "leaflet";
 import firebase from "firebase/compat/app";
 import { getFirestore, setDoc, doc, getDocs, collection } from "firebase/firestore";
 import Map from "./components/Map";
 import UserModal from "./components/UserModal";
+import Pass from "./components/Pass";
 import "./App.css";
 
 export interface UserData {
@@ -15,9 +16,9 @@ export interface UserData {
 function App() {
 	const [users, setUsers] = useState<UserData[]>();
 	const [me, setMe] = useState<UserData | undefined>();
-
-	firebase.initializeApp({
-		apiKey: "AIzaSyBWZ5AmsQTC78sCqXgYQccigjC5PJIhYAI",
+	const [password, setPassword] = useState<string | null>();
+	const isAuth = firebase.initializeApp({
+		apiKey: process.env.REACT_APP_API_KEY,
 		authDomain: "find-my-coworker.firebaseapp.com",
 		projectId: "find-my-coworker",
 		storageBucket: "find-my-coworker.appspot.com",
@@ -55,6 +56,7 @@ function App() {
 	}, [db]);
 
 	useEffect(() => {
+		setPassword(localStorage.getItem("butterfly"));
 		const name = localStorage.getItem("name");
 		const team = localStorage.getItem("team");
 		const location: number[] | undefined = localStorage
@@ -71,7 +73,9 @@ function App() {
 		}
 	}, []);
 
-	return (
+	return !password ? (
+		<Pass handlePass={() => setPassword("true")} />
+	) : (
 		<>
 			{!me ? <UserModal handleDB={docRef} /> : <></>}
 			{users ? <Map users={users} me={me} /> : <></>}

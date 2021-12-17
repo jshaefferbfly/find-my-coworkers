@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 
 // eslint-disable-next-line
@@ -19,7 +19,8 @@ export default function UserModal({ handleDB }: any) {
 		return success;
 	};
 
-	const handleSend = () => {
+	const handleSend = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		if (handleClose()) {
 			console.log(`
 			sending to the back... 
@@ -46,36 +47,38 @@ export default function UserModal({ handleDB }: any) {
 	return (
 		<>
 			<Modal show={show} onHide={handleClose}>
-				<Modal.Header>
-					<Modal.Title>
-						Hey 👋, Welcome to <b>FindMyCoworker</b>
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<InputGroup size="sm" className="mb-3">
-						<InputGroup.Text id="inputGroup-sizing-sm">What&apos;s your name?</InputGroup.Text>
-						<FormControl
-							aria-label="Small"
-							aria-describedby="inputGroup-sizing-sm"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-						/>
-					</InputGroup>
-					<InputGroup size="sm" className="mb-3">
-						<InputGroup.Text id="inputGroup-sizing-sm">What&apos;s your team?&nbsp;</InputGroup.Text>
-						<FormControl
-							aria-label="Small"
-							aria-describedby="inputGroup-sizing-sm"
-							value={team}
-							onChange={(e) => setTeam(e.target.value)}
-						/>
-					</InputGroup>
-				</Modal.Body>
-				<Modal.Footer>
-					<Button variant="primary" onClick={handleSend} disabled={!name || !team}>
-						Pin me!
-					</Button>
-				</Modal.Footer>
+				<form onSubmit={handleSend}>
+					<Modal.Header>
+						<Modal.Title>
+							Hey 👋, Welcome to <b>FindMyCoworker</b>
+						</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+						<InputGroup size="sm" className="mb-3">
+							<InputGroup.Text id="inputGroup-sizing-sm">What&apos;s your name?</InputGroup.Text>
+							<FormControl
+								aria-label="Small"
+								aria-describedby="inputGroup-sizing-sm"
+								value={name}
+								onChange={(e) => setName(e.target.value)}
+							/>
+						</InputGroup>
+						<InputGroup size="sm" className="mb-3">
+							<InputGroup.Text id="inputGroup-sizing-sm">What&apos;s your team?&nbsp;</InputGroup.Text>
+							<FormControl
+								aria-label="Small"
+								aria-describedby="inputGroup-sizing-sm"
+								value={team}
+								onChange={(e) => setTeam(e.target.value)}
+							/>
+						</InputGroup>
+					</Modal.Body>
+					<Modal.Footer>
+						<Button variant="primary" type="submit" disabled={!name || !team}>
+							Pin me!
+						</Button>
+					</Modal.Footer>
+				</form>
 			</Modal>
 		</>
 	);
