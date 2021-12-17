@@ -1,0 +1,22 @@
+.connected-container{
+    position: absolute;
+    top:0;
+    right:0;
+    z-index: 42;
+    width: 300px;
+    pointer-events: none;
+
+}
+.model-content *{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.connected-container .modal-dialog{
+    position: absolute;
+    top:0;
+    right:0;  
+    margin-right: 10px;  
+    width: 300px;
+}
+
