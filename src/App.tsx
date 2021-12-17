@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { LatLngExpression } from "leaflet";
 import firebase from "firebase/compat/app";
-import { getFirestore, setDoc, doc, getDocs, collection } from "firebase/firestore";
+import { getFirestore, setDoc, doc, getDocs, collection, getDoc } from "firebase/firestore";
 import Map from "./components/Map";
 import UserModal from "./components/UserModal";
 import Pass from "./components/Pass";
@@ -12,6 +12,7 @@ export interface UserData {
 	name: string;
 	team: string;
 	avatarId: string;
+	zIndex: number;
 }
 
 function App() {
@@ -32,12 +33,14 @@ function App() {
 
 	// eslint-disable-next-line
 	async function docRef(data: any) {
-		const id = `${data.name}-${data.team}-${data.avatarId}`;
+		const users = await getDocs(collection(db, "users"));
+		const id = `${data.name}!${data.team}!${data.avatarId}!${users.size + 1}`;
+		await setDoc(doc(db, "users", id), data.location);
+
 		localStorage.setItem("name", data.name);
 		localStorage.setItem("team", data.team);
 		localStorage.setItem("location", `${data.location.latitude},${data.location.longitude}`);
 		localStorage.setItem("avatarId", data.avatarId);
-		await setDoc(doc(db, "users", id), data.location);
 	}
 
 	useEffect(() => {
@@ -49,9 +52,10 @@ function App() {
 				const location: LatLngExpression = [doc.data().latitude, doc.data().longitude];
 				const newUser = {
 					location,
-					name: doc.id.split("-")[0],
-					team: doc.id.split("-")[1],
-					avatarId: doc.id.split("-")[2],
+					name: doc.id.split("!")[0],
+					team: doc.id.split("!")[1],
+					avatarId: doc.id.split("!")[2],
+					zIndex: +doc.id.split("!")[3],
 				};
 				newUserArr.push(newUser);
 			});
@@ -75,16 +79,25 @@ function App() {
 				team,
 				location: [location[0], location[1]],
 				avatarId,
+				zIndex: 0,
 			});
 		}
 	}, []);
+
+	const handleOrderedUsers = (orderedUsers: UserData[]) => {
+		setUsers([...orderedUsers]);
+	};
+
+	useEffect(() => {
+		console.log(users);
+	}, [users]);
 
 	return !hasPassword ? (
 		<Pass handlePass={() => setHasPassword("true")} />
 	) : (
 		<>
 			{!me ? <UserModal handleDB={docRef} /> : <></>}
-			{users ? <Map users={users} me={me} /> : <></>}
+			{users ? <Map users={users} me={me} handleOrderedUsers={handleOrderedUsers} /> : <></>}
 		</>
 	);
 }
