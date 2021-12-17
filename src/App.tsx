@@ -7,7 +7,6 @@ import UserModal from "./components/UserModal";
 import Pass from "./components/Pass";
 import "./App.css";
 import ConnectedUsers from "./components/ConnectedUsers";
-import { relative } from "path/posix";
 
 export interface UserData {
 	location: LatLngExpression;
@@ -100,7 +99,7 @@ function App() {
 	return !hasPassword ? (
 		<Pass handlePass={() => setHasPassword("true")} />
 	) : (
-		<div style={{ position: "relative" }}>
+		<div>
 			{users ? <ConnectedUsers users={users} /> : <></>}
 			{!me ? <UserModal handleDB={docRef} /> : <></>}
 			{users ? <Map users={users} me={me} handleOrderedUsers={handleOrderedUsers} /> : <></>}

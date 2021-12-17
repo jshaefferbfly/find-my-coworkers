@@ -1,3 +1,11 @@
+.fade.connected-container.modal{
+    position: absolute;
+    top:0;
+    right:0;    
+}
+.fade.connected-container.modal .modal-dialog{
+    margin-right: -100px;
+}
 .connected-container{
     position: absolute;
     top:0;
@@ -7,16 +15,3 @@
     pointer-events: none;
 
 }
-.model-content *{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.connected-container .modal-dialog{
-    position: absolute;
-    top:0;
-    right:0;  
-    margin-right: 10px;  
-    width: 300px;
-}
-

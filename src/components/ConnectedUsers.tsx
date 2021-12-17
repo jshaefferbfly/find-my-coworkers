@@ -10,7 +10,7 @@ interface Props {
 export default function ConnectedUsers({ users }: Props) {
 	return (
 		<div>
-			<Modal show={true} backdrop={false} style={{ pointerEvents: "none" }}>
+			<Modal show={true} backdrop={false} className="connected-container">
 				<Modal.Header>
 					<Modal.Title>Coworkers:</Modal.Title>
 				</Modal.Header>
