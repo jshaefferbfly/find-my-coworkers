@@ -18,6 +18,7 @@ export interface UserData {
 
 function App() {
 	const [users, setUsers] = useState<UserData[]>();
+	const [frozenUsers, setFrozenUsers] = useState<UserData[]>();
 	const [me, setMe] = useState<UserData | undefined>();
 	const [hasPassword, setHasPassword] = useState<string | null>();
 	firebase.initializeApp({
@@ -62,6 +63,7 @@ function App() {
 				newUserArr.push(newUser);
 			});
 			setUsers(newUserArr);
+			setFrozenUsers(newUserArr);
 		})();
 	}, [db]);
 
@@ -100,7 +102,7 @@ function App() {
 		<Pass handlePass={() => setHasPassword("true")} />
 	) : (
 		<div>
-			{users ? <ConnectedUsers users={users} /> : <></>}
+			{frozenUsers ? <ConnectedUsers users={frozenUsers} /> : <></>}
 			{!me ? <UserModal handleDB={docRef} /> : <></>}
 			{users ? <Map users={users} me={me} handleOrderedUsers={handleOrderedUsers} /> : <></>}
 		</div>
