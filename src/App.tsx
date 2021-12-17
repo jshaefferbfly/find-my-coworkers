@@ -102,7 +102,7 @@ function App() {
 		<Pass handlePass={() => setHasPassword("true")} />
 	) : (
 		<div>
-			{frozenUsers ? <ConnectedUsers users={frozenUsers} /> : <></>}
+			{frozenUsers && me ? <ConnectedUsers users={frozenUsers} /> : <></>}
 			{!me ? <UserModal handleDB={docRef} /> : <></>}
 			{users ? <Map users={users} me={me} handleOrderedUsers={handleOrderedUsers} /> : <></>}
 		</div>
