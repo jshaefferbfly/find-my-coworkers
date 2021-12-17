@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import * as L from "leaflet";
 import { MapContainer, Marker, TileLayer, Circle, Tooltip } from "react-leaflet";
 import { GestureHandling } from "leaflet-gesture-handling";
@@ -11,7 +10,6 @@ import "leaflet-gesture-handling/dist/leaflet-gesture-handling.css";
 interface Props {
 	users: UserData[];
 	me: UserData | undefined;
-	// setUsers: (users: UserData[]) => void;
 }
 
 const Map = ({ users, me }: Props) => {
@@ -43,7 +41,7 @@ const Map = ({ users, me }: Props) => {
 									<img
 										src={`data:image/svg+xml;utf8,${encodeURIComponent(
 											createAvatar(style, {
-												seed: uuidv4(),
+												seed: user.avatarId,
 											})
 										)}`}
 									/>

@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
 
 // eslint-disable-next-line
 export default function UserModal({ handleDB }: any) {
@@ -22,15 +23,15 @@ export default function UserModal({ handleDB }: any) {
 	const handleSend = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (handleClose()) {
-			console.log(`
-			sending to the back... 
-			name: ${name},
-			team: ${team},
-			location: ${location}
-			lat: ${location?.latitude}
-			long: ${location?.longitude}
-		`);
-			handleDB({ name, team, location: { longitude: location?.longitude, latitude: location?.latitude } });
+			handleDB({
+				name,
+				team,
+				location: {
+					longitude: location?.longitude,
+					latitude: location?.latitude,
+				},
+				avatarId: uuidv4(),
+			});
 		}
 	};
 

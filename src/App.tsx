@@ -11,13 +11,14 @@ export interface UserData {
 	location: LatLngExpression;
 	name: string;
 	team: string;
+	avatarId: string;
 }
 
 function App() {
 	const [users, setUsers] = useState<UserData[]>();
 	const [me, setMe] = useState<UserData | undefined>();
-	const [password, setPassword] = useState<string | null>();
-	const isAuth = firebase.initializeApp({
+	const [hasPassword, setHasPassword] = useState<string | null>();
+	firebase.initializeApp({
 		apiKey: process.env.REACT_APP_API_KEY,
 		authDomain: "find-my-coworker.firebaseapp.com",
 		projectId: "find-my-coworker",
@@ -28,12 +29,14 @@ function App() {
 	});
 
 	const db = getFirestore();
+
 	// eslint-disable-next-line
 	async function docRef(data: any) {
-		const id = `${data.name}-${data.team}`;
+		const id = `${data.name}-${data.team}-${data.avatarId}`;
 		localStorage.setItem("name", data.name);
 		localStorage.setItem("team", data.team);
 		localStorage.setItem("location", `${data.location.latitude},${data.location.longitude}`);
+		localStorage.setItem("avatarId", data.avatarId);
 		await setDoc(doc(db, "users", id), data.location);
 	}
 
@@ -48,6 +51,7 @@ function App() {
 					location,
 					name: doc.id.split("-")[0],
 					team: doc.id.split("-")[1],
+					avatarId: doc.id.split("-")[2],
 				};
 				newUserArr.push(newUser);
 			});
@@ -56,25 +60,27 @@ function App() {
 	}, [db]);
 
 	useEffect(() => {
-		setPassword(localStorage.getItem("butterfly"));
+		setHasPassword(localStorage.getItem("butterfly"));
 		const name = localStorage.getItem("name");
 		const team = localStorage.getItem("team");
+		const avatarId = localStorage.getItem("avatarId");
 		const location: number[] | undefined = localStorage
 			.getItem("location")
 			?.split(",")
 			.map((str) => +str);
 
-		if (name && team && location) {
+		if (name && team && location && avatarId) {
 			setMe({
 				name,
 				team,
 				location: [location[0], location[1]],
+				avatarId,
 			});
 		}
 	}, []);
 
-	return !password ? (
-		<Pass handlePass={() => setPassword("true")} />
+	return !hasPassword ? (
+		<Pass handlePass={() => setHasPassword("true")} />
 	) : (
 		<>
 			{!me ? <UserModal handleDB={docRef} /> : <></>}
