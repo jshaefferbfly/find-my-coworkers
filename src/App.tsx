@@ -34,6 +34,7 @@ function App() {
 	// eslint-disable-next-line
 	async function docRef(data: any) {
 		const users = await getDocs(collection(db, "users"));
+
 		const id = `${data.name}!${data.team}!${data.avatarId}!${users.size + 1}`;
 		await setDoc(doc(db, "users", id), data.location);
 
@@ -85,6 +86,8 @@ function App() {
 	}, []);
 
 	const handleOrderedUsers = (orderedUsers: UserData[]) => {
+		// delete all users
+		// save all users
 		setUsers([...orderedUsers]);
 	};
 
