@@ -13,7 +13,6 @@ export interface UserData {
 	name: string;
 	team: string;
 	avatarId: string;
-	zIndex: number;
 }
 
 function App() {
@@ -37,9 +36,7 @@ function App() {
 
 	// eslint-disable-next-line
 	async function docRef(data: any) {
-		const users = await getDocs(collection(db, "users"));
-
-		const id = `${data.name}!${data.team}!${data.avatarId}!${users.size + 1}`;
+		const id = `${data.name}!${data.team}!${data.avatarId}`;
 		setDoc(doc(db, "users", id), data.location).then(() => window.location.reload());
 
 		localStorage.setItem("name", data.name);
@@ -60,7 +57,6 @@ function App() {
 					name: doc.id.split("!")[0],
 					team: doc.id.split("!")[1],
 					avatarId: doc.id.split("!")[2],
-					zIndex: +doc.id.split("!")[3],
 				};
 				newUserArr.unshift(newUser);
 			});
@@ -85,7 +81,6 @@ function App() {
 				team,
 				location: [location[0], location[1]],
 				avatarId,
-				zIndex: 0,
 			});
 		}
 	}, []);
