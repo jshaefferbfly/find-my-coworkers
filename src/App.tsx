@@ -21,6 +21,8 @@ function App() {
 	const [frozenUsers, setFrozenUsers] = useState<UserData[]>();
 	const [me, setMe] = useState<UserData | undefined>();
 	const [hasPassword, setHasPassword] = useState<string | null>();
+	const [location, setLocation] = useState<GeolocationCoordinates>();
+
 	firebase.initializeApp({
 		apiKey: process.env.REACT_APP_API_KEY,
 		authDomain: "find-my-coworker.firebaseapp.com",
@@ -95,8 +97,21 @@ function App() {
 	};
 
 	useEffect(() => {
-		console.log(users);
-	}, [users]);
+		const getLocation = () => {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition((locationObject) => setLocation(locationObject.coords));
+			}
+		};
+		getLocation();
+		const id = `${me?.name}!${me?.team}!${me?.avatarId}`;
+		async function newPos() {
+			await setDoc(doc(db, "users", id), {
+				latitude: location?.latitude,
+				longitude: location?.longitude,
+			});
+		}
+		if (id !== undefined && location?.latitude !== undefined && location.longitude !== undefined) newPos();
+	}, []);
 
 	return !hasPassword ? (
 		<Pass handlePass={() => setHasPassword("true")} />
