@@ -106,7 +106,7 @@ function App() {
 			});
 		}
 		if (id !== undefined && location?.latitude !== undefined && location.longitude !== undefined) newPos();
-	}, []);
+	}, [db, location?.latitude, location?.longitude, me?.avatarId, me?.name, me?.team]);
 
 	return !hasPassword ? (
 		<Pass handlePass={() => setHasPassword("true")} />
