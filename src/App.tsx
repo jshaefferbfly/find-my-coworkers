@@ -20,7 +20,7 @@ function App() {
 	const [frozenUsers, setFrozenUsers] = useState<UserData[]>();
 	const [me, setMe] = useState<UserData | undefined>();
 	const [hasPassword, setHasPassword] = useState<string | null>();
-	const [location, setLocation] = useState<GeolocationCoordinates>();
+	// const [location, setLocation] = useState<GeolocationCoordinates>();
 
 	firebase.initializeApp({
 		apiKey: process.env.REACT_APP_API_KEY,
