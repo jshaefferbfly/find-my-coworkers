@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 
@@ -8,6 +8,7 @@ export default function UserModal({ handleDB }: any) {
 	const [name, setName] = useState<string>("");
 	const [team, setTeam] = useState<string>("");
 	const [location, setLocation] = useState<GeolocationCoordinates>();
+	const [message, setMessage] = useState<string>("");
 
 	const handleClose = () => {
 		let success = false;
@@ -22,6 +23,7 @@ export default function UserModal({ handleDB }: any) {
 
 	const handleSend = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		if (isTooLong()) return;
 		if (handleClose()) {
 			handleDB({
 				name,
@@ -40,6 +42,22 @@ export default function UserModal({ handleDB }: any) {
 			navigator.geolocation.getCurrentPosition((locationObject) => setLocation(locationObject.coords));
 		}
 	};
+
+	const isTooLong = useCallback(() => {
+		if (name.length > 20 || team.length > 20) {
+			return true;
+		} else {
+			return false;
+		}
+	}, [name.length, team.length]);
+
+	useEffect(() => {
+		if (isTooLong()) {
+			setMessage("Name and/or Team is too long");
+		} else {
+			setMessage("");
+		}
+	}, [name, team, isTooLong]);
 
 	useEffect(() => {
 		getLocation();
@@ -62,6 +80,7 @@ export default function UserModal({ handleDB }: any) {
 								aria-describedby="inputGroup-sizing-sm"
 								value={name}
 								onChange={(e) => setName(e.target.value)}
+								onBlur={isTooLong}
 							/>
 						</InputGroup>
 						<InputGroup size="sm" className="mb-3">
@@ -71,11 +90,13 @@ export default function UserModal({ handleDB }: any) {
 								aria-describedby="inputGroup-sizing-sm"
 								value={team}
 								onChange={(e) => setTeam(e.target.value)}
+								onBlur={isTooLong}
 							/>
 						</InputGroup>
+						<small style={{ color: "red" }}>{message}</small>
 					</Modal.Body>
 					<Modal.Footer>
-						<Button variant="primary" type="submit" disabled={!name || !team}>
+						<Button variant="primary" type="submit" disabled={!name || !team || isTooLong()}>
 							Pin me!
 						</Button>
 					</Modal.Footer>

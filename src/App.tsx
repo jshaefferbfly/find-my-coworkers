@@ -46,6 +46,9 @@ function App() {
 		localStorage.setItem("avatarId", data.avatarId);
 	}
 
+	// get user id - TODO
+	// set lat and long to the new location
+
 	useEffect(() => {
 		(async () => {
 			const usersRef = collection(db, "users");
@@ -93,10 +96,6 @@ function App() {
 		// save all users
 		setUsers([...orderedUsers]);
 	};
-
-	useEffect(() => {
-		console.log(users);
-	}, [users]);
 
 	return !hasPassword ? (
 		<Pass handlePass={() => setHasPassword("true")} />
