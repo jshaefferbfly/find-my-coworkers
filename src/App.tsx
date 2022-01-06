@@ -91,28 +91,29 @@ function App() {
 		setUsers([...orderedUsers]);
 	};
 
-	useEffect(() => {
-		const getLocation = () => {
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition((locationObject) => setLocation(locationObject.coords));
-			}
-		};
-		getLocation();
-		const id = `${me?.name}!${me?.team}!${me?.avatarId}`;
-		async function newPos() {
-			await setDoc(doc(db, "users", id), {
-				latitude: location?.latitude,
-				longitude: location?.longitude,
-			});
-		}
-		if (
-			(id !== undefined || id !== "undefined!undefined!undefined") &&
-			location?.latitude !== undefined &&
-			location.longitude !== undefined
-		) {
-			newPos();
-		}
-	}, [db, location?.latitude, location?.longitude, me?.avatarId, me?.name, me?.team]);
+	// useEffect(() => {
+	// 	const getLocation = () => {
+	// 		if (navigator.geolocation) {
+	// 			navigator.geolocation.getCurrentPosition((locationObject) => setLocation(locationObject.coords));
+	// 		}
+	// 	};
+	// 	getLocation();
+	// 	const id = `${me?.name}!${me?.team}!${me?.avatarId}`;
+	// 	async function newPos() {
+	// 		await setDoc(doc(db, "users", id), {
+	// 			latitude: location?.latitude,
+	// 			longitude: location?.longitude,
+	// 		});
+	// 	}
+	// 	console.log(id);
+	// 	if (
+	// 		(id !== undefined || id !== "undefined!undefined!undefined") &&
+	// 		location?.latitude !== undefined &&
+	// 		location.longitude !== undefined
+	// 	) {
+	// 		newPos();
+	// 	}
+	// }, [db, location?.latitude, location?.longitude, me?.avatarId, me?.name, me?.team]);
 
 	return !hasPassword ? (
 		<Pass handlePass={() => setHasPassword("true")} />
