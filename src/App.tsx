@@ -46,9 +46,6 @@ function App() {
 		localStorage.setItem("avatarId", data.avatarId);
 	}
 
-	// get user id - TODO
-	// set lat and long to the new location
-
 	useEffect(() => {
 		(async () => {
 			const usersRef = collection(db, "users");
