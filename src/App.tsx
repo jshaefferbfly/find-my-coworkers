@@ -105,7 +105,13 @@ function App() {
 				longitude: location?.longitude,
 			});
 		}
-		if (id !== undefined && location?.latitude !== undefined && location.longitude !== undefined) newPos();
+		if (
+			(id !== undefined || id !== "undefined!undefined!undefined") &&
+			location?.latitude !== undefined &&
+			location.longitude !== undefined
+		) {
+			newPos();
+		}
 	}, [db, location?.latitude, location?.longitude, me?.avatarId, me?.name, me?.team]);
 
 	return !hasPassword ? (
